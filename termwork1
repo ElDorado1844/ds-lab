@@ -1,0 +1,90 @@
+// TW 1 Simpler- without copying files into arrays of strings
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main()
+{
+    FILE *f1, *f2, *f3;
+    char m[15], n[15], comm[15][15];
+    int i, cnt=0;
+
+    f1=fopen("input1.txt", "r");
+    if(f1==NULL)
+    {
+        printf("\nInput1 file open error for reading");
+        exit(1);
+    }
+
+    f2=fopen("input2.txt", "r");
+    if(f2==NULL)
+    {
+        printf("\nInput2 file open error for reading");
+        exit(2);
+    }
+
+    f3=fopen("output", "w");
+    if(f3==NULL)
+    {
+        printf("\nOutput file open error for writing");
+        exit(3);
+    }
+
+    fscanf(f1,"%s",m);
+    fscanf(f2,"%s",n);
+
+    while(!feof(f1) && !feof(f2))
+    {
+         if(strcmp(m,n)==0)
+         {
+             fprintf(f3, "%s\n", m);
+             strcpy(comm[cnt++], m);
+             fscanf(f1,"%s",m);
+             fscanf(f2,"%s",n);
+         }
+         else
+            if(strcmp(m,n)<0)
+            {
+                 fprintf(f3, "%s\n", m);
+                 fscanf(f1,"%s",m);
+            }
+         else
+           {
+                 fprintf(f3, "%s\n", n);
+                 fscanf(f2,"%s",n);
+            }
+    }
+
+    if(strcmp(m,n)==0)
+    {
+             fprintf(f3, "%s\n", m);
+             strcpy(comm[cnt++], m);
+             fscanf(f1,"%s",m);
+             fscanf(f2,"%s",n);
+    }
+    if(!feof(f1))
+        fprintf(f3,"%s\n",m);
+    if(!feof(f2))
+        fprintf(f3,"%s\n",n);
+    while(!feof(f1))
+    {
+       fscanf(f1,"%s",m);
+       fprintf(f3, "%s\n", m);
+       if(strcmp(m,n)==0)
+           strcpy(comm[cnt++], m);
+    }
+
+    while(!feof(f2))
+    {
+       fscanf(f2,"%s",n);
+       fprintf(f3, "%s\n", n);
+       if(strcmp(m,n)==0)
+           strcpy(comm[cnt++], m);
+    }
+
+    printf("\nThe common USNs are:\n");
+    for(i=0; i<cnt; i++)
+        printf("%s\n", comm[i]);
+    return 0;
+}
